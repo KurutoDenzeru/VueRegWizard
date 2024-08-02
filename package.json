@@ -1,22 +1,28 @@
 {
-  "name": "VueRegWizard",
-  "version": "1.0.0",
-  "description": "",
-  "author": "Kuruto Denzeru",
-  "private": true,
-  "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate"
-  },
-  "dependencies": {
-    "nuxt": "^2.0.0",
-    "@nuxtjs/axios": "^5.3.6"
-  },
-  "devDependencies": {
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "prettier": "^1.19.1"
-  }
+	"name": "VueRegWizard",
+	"version": "1.0.0",
+	"description": "",
+	"author": "Kuruto Denzeru",
+	"private": true,
+	"scripts": {
+		"dev": "nuxt",
+		"build": "nuxt build",
+		"start": "nuxt start",
+		"generate": "nuxt generate"
+	},
+	"dependencies": {
+		"@nuxtjs/axios": "^5.3.6",
+		"@quasar/extras": "^1.16.12",
+		"nuxt": "^2.0.0",
+		"quasar": "^1.22.10",
+		"sass": "^1.77.8",
+		"sass-loader": "^16.0.0",
+		"vee-validate": "^4.13.2"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.8.3",
+		"eslint-config-prettier": "^6.10.0",
+		"eslint-plugin-prettier": "^3.1.2",
+		"prettier": "^1.19.1"
+	}
 }
