@@ -124,7 +124,7 @@
               <div class="col-12 col-sm-6">
                 <label for="verification-container" style="text-align: start;">Verification Code</label>
                 <div class="verification-container d-flex align-items-center">
-                  <ValidationProvider name="verification code" rules="required" v-slot="{ errors }">
+                  <ValidationProvider name="verification code" :rules="{ required: true, matchesRandomNum: { randomNum } }" v-slot="{ errors }" style="border-top-right-radius: 10px; border-bottom-right-radius: 10px;">
                     <q-input
                       filled
                       v-model="verificationCode"
@@ -186,6 +186,13 @@ extend("confirmed", {
 	message: "Passwords do not match",
 });
 
+// Custom rule for verification code
+extend("matchesRandomNum", {
+	validate: (value, { randomNum }) => value === randomNum.toString(),
+	params: ["randomNum"],
+	message: "Verification code does not match",
+});
+
 export default {
 	components: {
 		ValidationObserver,
@@ -221,6 +228,7 @@ export default {
 			this.referral = "";
 			this.agree = false;
 			this.verificationCode = "";
+			this.randomNum = Math.floor(1000 + Math.random() * 9000); // Generate a new random number
 		},
 	},
 };
@@ -330,6 +338,11 @@ img {
   height: 56px;
 }
 
+:deep(.q-field--filled .q-field__control) {
+  border-radius: 4px 4px 0 0;
+  padding: 0px;
+}
+
 .verification-container {
   display: flex;
   align-items: center;
@@ -337,18 +350,30 @@ img {
 
 .random-box {
   background-color: white;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
   text-align: center;
-  min-width: 80px; /* Adjust as needed */
+  min-width: 120px; /* Adjust as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .random-number {
   color: red;
   font-size: 1.2em;
+  margin: 0;
 }
 
 @media (max-width: 600px) {
   .my-card {
     width: 100%;
   }
+}
+
+.error {
+  color: red;
+  font-size: 0.8em;
 }
 </style>
