@@ -18,104 +18,179 @@
       </div>
 
       <q-card-section style="padding: 15px; margin: 10px;">
-        <q-form @submit="onSubmit" @reset="onReset">
-          <div class="row q-col-gutter-md">
-            <div class="col-12 col-sm-6">
-              <div class="input-container">
-                <label for="name">Username</label>
-                <q-input
-                  filled
-                  id="name"
-                  v-model="name"
-                  placeholder="Please enter username."
-                  lazy-rules
-                  :rules="[val => val && val.length > 0 ]"
-                />
-              </div>
-            </div>
-            <div class="col-12 col-sm-6">
-              <div class="input-container">
-                <label for="password">Password</label>
-                <q-input filled v-model="password" placeholder="Please enter password." id="password" type="password" />
-              </div>
-            </div>
-            <div class="col-12 col-sm-6">
-              <div class="input-container">
-                <label for="confirmPassword">Confirm Password</label>
-                <q-input filled v-model="confirmPassword" placeholder="Please enter password." id="confirmPassword" type="password" />
-              </div>
-            </div>
-            <div class="col-12 col-sm-6">
-              <div class="input-container">
-                <label for="mobileNumber">Mobile Number</label>
-                <q-input filled v-model="mobileNumber" placeholder="Please enter mobile number." id="mobileNumber" />
-              </div>
-            </div>
-            <div class="col-12 col-sm-6">
-              <div class="input-container">
-                <label for="email">E-mail Address</label>
-                <q-input filled v-model="email" placeholder="Please enter e-mail address." id="email" />
-              </div>
-            </div>
-            <div class="col-12 col-sm-6">
-              <div class="input-container">
-                <label for="identityNo">Identity No</label>
-                <q-input filled v-model="identityNo" placeholder="Please enter correct ID number." id="identityNo" />
-              </div>
-            </div>
-            <div class="col-12 col-sm-6">
-              <div class="input-container">
-                <label for="referral">Referral</label>
-                <q-input filled v-model="referral" placeholder="Please enter referral username." id="referral" />
-                <label style="color: #959595">Leave blank if no referral</label>
-              </div>
-            </div>
-            <!-- Verification Code -->
-           <div class="col-12 col-sm-6">
-            <label for="verification-container" style="text-align: start;">Verification Code</label>
-              <div class="verification-container d-flex align-items-center">
-                
-                <q-input
-                  filled
-                  v-model="verificationCode"
-                  placeholder="Verification Code."
-                  id="verificationCode"
-                  class="flex-grow-1"
-                >
-                  <template v-slot:append>
-                    <div class="random-box ms-2">
-                  <p class="random-number">{{ randomNum }}</p>
+        <ValidationObserver v-slot="{ handleSubmit }">
+          <q-form @submit.prevent="handleSubmit(onSubmit)" @reset="onReset">
+            <div class="row q-col-gutter-md">
+              <div class="col-12 col-sm-6">
+                <div class="input-container">
+                  <label for="name">Username</label>
+                  <ValidationProvider name="username" rules="required" v-slot="{ errors }">
+                    <q-input
+                      filled
+                      id="name"
+                      v-model="name"
+                      placeholder="Please enter username."
+                      :error="!!errors[0]"
+                      :error-message="errors[0]"
+                    />
+                  </ValidationProvider>
                 </div>
-                    <!-- <q-btn round dense flat icon="refresh" /> -->
-                  </template>
-                </q-input>
-                  <!-- <div class="random-box ms-2">
-                    <p class="random-number">{{ randomNum }}</p>
-                  </div> -->
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="input-container">
+                  <label for="password">Password</label>
+                  <ValidationProvider name="password" rules="required" vid="password" v-slot="{ errors }">
+                    <q-input 
+                      filled 
+                      v-model="password" 
+                      placeholder="Please enter password." 
+                      id="password" 
+                      type="password"
+                      :error="!!errors[0]"
+                      :error-message="errors[0]"
+                    />
+                  </ValidationProvider>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="input-container">
+                  <label for="confirmPassword">Confirm Password</label>
+                  <ValidationProvider name="confirm password" rules="required|confirmed:password" v-slot="{ errors }">
+                    <q-input 
+                      filled 
+                      v-model="confirmPassword" 
+                      placeholder="Please enter password." 
+                      id="confirmPassword" 
+                      type="password"
+                      :error="!!errors[0]"
+                      :error-message="errors[0]"
+                    />
+                  </ValidationProvider>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="input-container">
+                  <label for="mobileNumber">Mobile Number</label>
+                  <ValidationProvider name="mobile number" rules="required" v-slot="{ errors }">
+                    <q-input 
+                      filled 
+                      v-model="mobileNumber" 
+                      placeholder="Please enter mobile number." 
+                      id="mobileNumber"
+                      :error="!!errors[0]"
+                      :error-message="errors[0]"
+                    />
+                  </ValidationProvider>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="input-container">
+                  <label for="email">E-mail Address</label>
+                  <ValidationProvider name="email" rules="required|email" v-slot="{ errors }">
+                    <q-input 
+                      filled 
+                      v-model="email" 
+                      placeholder="Please enter e-mail address." 
+                      id="email"
+                      :error="!!errors[0]"
+                      :error-message="errors[0]"
+                    />
+                  </ValidationProvider>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="input-container">
+                  <label for="identityNo">Identity No</label>
+                  <ValidationProvider name="identity number" rules="required" v-slot="{ errors }">
+                    <q-input 
+                      filled 
+                      v-model="identityNo" 
+                      placeholder="Please enter correct ID number." 
+                      id="identityNo"
+                      :error="!!errors[0]"
+                      :error-message="errors[0]"
+                    />
+                  </ValidationProvider>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6">
+                <div class="input-container">
+                  <label for="referral">Referral</label>
+                  <q-input filled v-model="referral" placeholder="Please enter referral username." id="referral" />
+                  <label style="color: #959595">Leave blank if no referral</label>
+                </div>
+              </div>
+              <!-- Verification Code -->
+              <div class="col-12 col-sm-6">
+                <label for="verification-container" style="text-align: start;">Verification Code</label>
+                <div class="verification-container d-flex align-items-center">
+                  <ValidationProvider name="verification code" rules="required" v-slot="{ errors }">
+                    <q-input
+                      filled
+                      v-model="verificationCode"
+                      placeholder="Verification Code."
+                      id="verificationCode"
+                      class="flex-grow-1"
+                      :error="!!errors[0]"
+                      :error-message="errors[0]"
+                    >
+                      <template v-slot:append>
+                        <div class="random-box ms-2">
+                          <p class="random-number">{{ randomNum }}</p>
+                        </div>
+                      </template>
+                    </q-input>
+                  </ValidationProvider>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="q-mt-md">
-            <q-checkbox v-model="agree" class="white-checkbox">
-              <template v-slot:default>
-                I agree to <span class="terms-link">OCMS Terms & Conditions</span>
-              </template>
-            </q-checkbox>
-          </div>
+            <div class="q-mt-md">
+              <ValidationProvider name="terms" rules="required" v-slot="{ errors }">
+                <q-checkbox v-model="agree" class="white-checkbox">
+                  <template v-slot:default>
+                    I agree to <span class="terms-link">OCMS Terms & Conditions</span>
+                  </template>
+                </q-checkbox>
+                <span class="error">{{ errors[0] }}</span>
+              </ValidationProvider>
+            </div>
 
-          <div class="text-center q-mt-lg">
-            <q-btn type="submit" rounded color="orange" label="Register" class="glossy" />
-          </div>
+            <div class="text-center q-mt-lg">
+              <q-btn type="submit" rounded color="orange" label="Register" class="glossy" />
+            </div>
 
-        </q-form>
+          </q-form>
+        </ValidationObserver>
       </q-card-section>
     </q-card>
   </div>
 </template>
 
 <script>
+import { extend, ValidationObserver, ValidationProvider } from "vee-validate";
+import { required, email, confirmed } from "vee-validate/dist/rules";
+
+extend("required", {
+	...required,
+	message: "{_field_} is required",
+});
+
+extend("email", {
+	...email,
+	message: "Please enter a valid email",
+});
+
+extend("confirmed", {
+	...confirmed,
+	message: "Passwords do not match",
+});
+
 export default {
+	components: {
+		ValidationObserver,
+		ValidationProvider,
+	},
 	data() {
 		return {
 			name: "",
@@ -133,9 +208,19 @@ export default {
 	methods: {
 		onSubmit() {
 			// Handle form submission
+			console.log("Form submitted");
 		},
 		onReset() {
 			// Handle form reset
+			this.name = "";
+			this.password = "";
+			this.confirmPassword = "";
+			this.mobileNumber = "";
+			this.email = "";
+			this.identityNo = "";
+			this.referral = "";
+			this.agree = false;
+			this.verificationCode = "";
 		},
 	},
 };
