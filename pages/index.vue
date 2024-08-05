@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div>
+    <div style="margin: 25px">
       <Logo />
       <Stepper />
       <Card />
