@@ -1,66 +1,65 @@
 export default {
-	// Be sure this is set to false, or Quasar will not work
+	// Global page headers: https://go.nuxtjs.dev/config-head
+	// Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
 	ssr: false,
-	mode: "universal",
-	/*
-	 ** Headers of the page
-	 */
+
+	// Target: https://go.nuxtjs.dev/config-target
+	target: 'static',
+
 	head: {
-		title: process.env.npm_package_name || "",
+		title: 'reg-form',
+		htmlAttrs: {
+			lang: 'en',
+		},
 		meta: [
-			{ charset: "utf-8" },
-			{ name: "viewport", content: "width=device-width, initial-scale=1" },
-			{
-				hid: "description",
-				name: "description",
-				content: process.env.npm_package_description || "",
-			},
+			{ charset: 'utf-8' },
+			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
+			{ hid: 'description', name: 'description', content: '' },
+			{ name: 'format-detection', content: 'telephone=no' },
 		],
-		link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+		link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
 	},
-	/*
-	 ** Customize the progress-bar color
-	 */
-	loading: { color: "#fff" },
-	/*
-	 ** Global CSS
-	 */
+
+	// Global CSS: https://go.nuxtjs.dev/config-css
 	css: [
-		"quasar/src/css/variables.sass", // Import Quasar variables
-		"quasar/dist/quasar.sass",
+		'quasar/dist/quasar.css',
+		'@quasar/extras/material-icons/material-icons.css',
 	],
-	/*
-	 ** Plugins to load before mounting the App
-	 */
-	plugins: [
-		"~/plugins/quasar.js",
-		{ src: "~/plugins/quasar.js", mode: "client" }, // or 'server' for server-side only
+
+	// Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+	plugins: ['~/plugins/quasar.js', '~/plugins/vee-validate.js'],
+
+	// Auto import components: https://go.nuxtjs.dev/config-components
+	components: true,
+
+	// Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+	buildModules: [
+		// https://go.nuxtjs.dev/eslint
+		'@nuxtjs/eslint-module',
 	],
-	/*
-	 ** Nuxt.js dev-modules
-	 */
-	buildModules: [],
-	/*
-	 ** Nuxt.js modules
-	 */
+
+	// Modules: https://go.nuxtjs.dev/config-modules
 	modules: [
-		// Doc: https://axios.nuxtjs.org/usage
-		"@nuxtjs/style-resources",
-		"@nuxtjs/axios",
+		// https://go.nuxtjs.dev/axios
+		'@nuxtjs/axios',
+		'@nuxtjs/style-resources',
 	],
-	/*
-	 ** Axios module configuration
-	 ** See https://axios.nuxtjs.org/options
-	 */
-	axios: {},
-	/*
-	 ** Build configuration
-	 */
-	build: {
-		/*
-		 ** You can extend webpack config here
-		 */
-		transpile: [/^quasar/],
-		extend(config, ctx) {},
+
+	styleResources: {
+		scss: [
+			'quasar/src/css/variables.sass', // Import Quasar variables
+		],
 	},
-};
+
+	// Axios module configuration: https://go.nuxtjs.dev/config-axios
+	axios: {
+		// Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
+		baseURL: '/',
+	},
+
+	// Build Configuration: https://go.nuxtjs.dev/config-build
+	build: {
+		transpile: ['/^quasar/'],
+		extend(config, ctx) { },
+	},
+}
