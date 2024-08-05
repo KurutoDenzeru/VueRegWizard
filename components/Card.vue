@@ -1,55 +1,103 @@
 <template>
-  <div class="q-pa-md row items-start q-gutter-md main-container">
-
-    <!-- Dark Card -->
+  <div class="q-pa-md row items-center justify-center">
     <q-card dark bordered class="my-card">
       <q-card-section>
         <div id="Continue">Continue with</div>
       </q-card-section>
 
-      <div class="icon-container" style="padding-bottom: 35px;">
+      <div class="icon-container" style="padding-bottom: 10px;">
         <img src="@/assets/fb-icon.png" alt="Facebook Icon">
         <div id="breakpoint"></div>
         <img src="@/assets/google-icon.png" alt="Google Icon">
       </div>
 
-      <q-separator dark inset />
+      <div class="custom-separator">
+        <div class="separator-line"></div>
+        <div class="separator-text">or</div>
+        <div class="separator-line"></div>
+      </div>
 
-      <q-card-section style="padding: 15px ">
-        <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+      <q-card-section style="padding: 15px; margin: 10px;">
+        <q-form @submit="onSubmit" @reset="onReset">
           <div class="row q-col-gutter-md">
             <div class="col-12 col-sm-6">
-              <q-input filled v-model="username" label="Username" stack-label />
+              <div class="input-container">
+                <label for="name">Username</label>
+                <q-input
+                  filled
+                  id="name"
+                  v-model="name"
+                  placeholder="Please enter username."
+                  lazy-rules
+                  :rules="[val => val && val.length > 0 ]"
+                />
+              </div>
             </div>
             <div class="col-12 col-sm-6">
-              <q-input filled v-model="password" label="Password" type="password" stack-label />
+              <div class="input-container">
+                <label for="password">Password</label>
+                <q-input filled v-model="password" placeholder="Please enter password." id="password" type="password" />
+              </div>
             </div>
             <div class="col-12 col-sm-6">
-              <q-input filled v-model="confirmPassword" label="Confirm Password" type="password" stack-label />
+              <div class="input-container">
+                <label for="confirmPassword">Confirm Password</label>
+                <q-input filled v-model="confirmPassword" placeholder="Please enter password." id="confirmPassword" type="password" />
+              </div>
             </div>
             <div class="col-12 col-sm-6">
-              <q-input filled v-model="mobileNumber" label="Mobile Number" stack-label />
+              <div class="input-container">
+                <label for="mobileNumber">Mobile Number</label>
+                <q-input filled v-model="mobileNumber" placeholder="Please enter mobile number." id="mobileNumber" />
+              </div>
             </div>
             <div class="col-12 col-sm-6">
-              <q-input filled v-model="email" label="E-mail Address" stack-label />
+              <div class="input-container">
+                <label for="email">E-mail Address</label>
+                <q-input filled v-model="email" placeholder="Please enter e-mail address." id="email" />
+              </div>
             </div>
             <div class="col-12 col-sm-6">
-              <q-input filled v-model="identityNo" label="Identity No" stack-label />
+              <div class="input-container">
+                <label for="identityNo">Identity No</label>
+                <q-input filled v-model="identityNo" placeholder="Please enter correct ID number." id="identityNo" />
+              </div>
             </div>
             <div class="col-12 col-sm-6">
-              <q-input filled v-model="referral" label="Referral" stack-label />
+              <div class="input-container">
+                <label for="referral">Referral</label>
+                <q-input filled v-model="referral" placeholder="Please enter referral username." id="referral" />
+                <label style="color: #959595">Leave blank if no referral</label>
+              </div>
             </div>
-            <div class="col-12 col-sm-6">
-              <q-input filled v-model="verificationCode" label="Verification Code" stack-label>
-                <template v-slot:append>
-                  <q-btn round dense flat icon="refresh" />
-                </template>
-              </q-input>
+            <!-- Verification Code -->
+           <div class="col-12 col-sm-6">
+            <label for="verification-container" style="text-align: start;">Verification Code</label>
+              <div class="verification-container d-flex align-items-center">
+                
+                <q-input
+                  filled
+                  v-model="verificationCode"
+                  placeholder="Verification Code."
+                  id="verificationCode"
+                  class="flex-grow-1"
+                >
+                  <template v-slot:append>
+                    <div class="random-box ms-2">
+                  <p class="random-number">{{ randomNum }}</p>
+                </div>
+                    <!-- <q-btn round dense flat icon="refresh" /> -->
+                  </template>
+                </q-input>
+                  <!-- <div class="random-box ms-2">
+                    <p class="random-number">{{ randomNum }}</p>
+                  </div> -->
+              </div>
             </div>
           </div>
-          
+
           <div class="q-mt-md">
-            <q-checkbox v-model="agree">
+            <q-checkbox v-model="agree" class="white-checkbox">
               <template v-slot:default>
                 I agree to <span class="terms-link">OCMS Terms & Conditions</span>
               </template>
@@ -57,12 +105,12 @@
           </div>
 
           <div class="text-center q-mt-lg">
-            <q-btn type="submit" color="orange" label="Register" />
-          </div>  
+            <q-btn type="submit" rounded color="orange" label="Register" class="glossy" />
+          </div>
+
         </q-form>
       </q-card-section>
     </q-card>
-
   </div>
 </template>
 
@@ -70,15 +118,16 @@
 export default {
 	data() {
 		return {
-			username: "",
+			name: "",
 			password: "",
 			confirmPassword: "",
 			mobileNumber: "",
 			email: "",
 			identityNo: "",
 			referral: "",
-			verificationCode: "",
 			agree: false,
+			verificationCode: "",
+			randomNum: Math.floor(1000 + Math.random() * 9000), // Generate a random 4-digit number
 		};
 	},
 	methods: {
@@ -93,10 +142,9 @@ export default {
 </script>
 
 <style scoped>
-
 .my-card {
   width: 100%;
-  max-width: 490px;
+  max-width: 690px; /* Adjust width to accommodate the random number box */
   background-color: #1C1C1C;
   border-color: #EBA013;
   border-width: 2px;
@@ -105,48 +153,87 @@ export default {
 
 .icon-container {
   display: flex;
-  align-items: center; /* Align items vertically in the center */
-  justify-content: center; /* Distribute space between items */
-  gap: 10px; /* Space between images */
-  padding: 5px; /* Add padding if needed */
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 5px;
+}
+
+.custom-separator {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: white;
+}
+
+.separator-line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.28);
+}
+
+.separator-text {
+  padding: 0 16px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.separator-line {
+  margin: 10px;
 }
 
 img {
-  /* Optional: Styling for images */
-  width: 50px; /* Adjust size as needed */
+  width: 50px;
   height: auto;
 }
 
+.white-checkbox {
+  color: white;
+}
+
+:deep(.white-checkbox .q-checkbox__inner) {
+  color: white;
+}
+
+:deep(.white-checkbox .q-checkbox__inner:before) {
+  border-color: white;
+}
+
+:deep(.white-checkbox .q-checkbox__bg) {
+  border-color: white;
+}
+
+:deep(.white-checkbox .q-checkbox__svg) {
+  color: #1C1C1C;
+}
+
+:deep(.white-checkbox.q-checkbox--checked .q-checkbox__bg) {
+  background: white;
+}
+
 .terms-link {
-  color: #EBA013; /* This is a yellow color, you can adjust it as needed */
-  cursor: pointer; /* This makes it look clickable */
-}
-
-.continue {
-  
-}
-
-.main-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  color: #EBA013;
+  cursor: pointer;
 }
 
 /* Styles for input fields */
-:deep(.q-field) {
-  margin-bottom: 20px;
+.input-container {
+  display: block; /* Reverted to block to not affect other inputs */
 }
 
-:deep(.q-field__label) {
-  top: -25px;
-  left: 0;
+.input-container label {
+  display: block;
+  text-align: start;
   color: #ffffff;
-  font-size: 14px;
+}
+
+:deep(.q-field__control input::placeholder) {
+  color: #C3C3C3;
+  padding-left: 5px;
 }
 
 :deep(.q-field--filled .q-field__control) {
-  background-color: #3a3a3a;  /* Light grey background */
+  background-color: #3a3a3a;
   border-radius: 5px;
 }
 
@@ -158,5 +245,25 @@ img {
   height: 56px;
 }
 
-  
+.verification-container {
+  display: flex;
+  align-items: center;
+}
+
+.random-box {
+  background-color: white;
+  text-align: center;
+  min-width: 80px; /* Adjust as needed */
+}
+
+.random-number {
+  color: red;
+  font-size: 1.2em;
+}
+
+@media (max-width: 600px) {
+  .my-card {
+    width: 100%;
+  }
+}
 </style>
