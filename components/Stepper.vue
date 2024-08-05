@@ -9,32 +9,29 @@
     >
       <q-step
         :name="1"
-        prefix="1"
-        :done="done1"
+        title="1"  
       >
         <q-stepper-navigation>
-          <q-btn @click="() => { done1 = true; step = 2 }" color="primary" label="Continue" />
+          <q-btn @click="() => { done1 = true; step = 2 }" color="primary" label="1" />
         </q-stepper-navigation>
       </q-step>
 
       <q-step
         :name="2"
-        prefix="2"
-        :done="done2"
+        title="2"
       >
         <q-stepper-navigation>
-          <q-btn @click="() => { done2 = true; step = 3 }" color="primary" label="Continue" />
+          <q-btn @click="() => { done2 = true; step = 3 }" color="primary" label="2" />
           <q-btn flat @click="step = 1" color="dark" label="Back" class="q-ml-sm" />
         </q-stepper-navigation>
       </q-step>
 
       <q-step
         :name="3"
-        prefix="3"
-        :done="done3"
+        title="3"
       >
         <q-stepper-navigation>
-          <q-btn color="primary" @click="done3 = true" label="Finish" />
+          <q-btn color="primary" @click="done3 = true" label="3" />
           <q-btn flat @click="step = 2" color="dark" label="Back" class="q-ml-sm" />
         </q-stepper-navigation>
       </q-step>
@@ -77,6 +74,22 @@ export default {
 }
 
 /* stepper */
+.q-stepper__tab--active::after {
+  content: attr(prefix);
+  display: block;
+  color: white;
+  font-size: 40px;
+  z-index: 10;
+  position: absolute;
+  top: 7px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+.q-stepper__tab:not(.q-stepper__tab--active) .q-stepper__dot {
+  background-color: #000000;
+}
+
 .q-stepper {
   background-color: transparent;
   box-shadow: none;
@@ -91,8 +104,17 @@ export default {
   display: none;
 }
 
+.q-stepper__label {
+  right: 48px !important;
+}
+
+.q-stepper__label--active {
+  right: 55px !important;
+}
+
 .q-stepper__title {
-  display: none;
+  font-size: 35px;
+  color: gray;
 }
 
 .q-stepper__caption {
@@ -101,34 +123,44 @@ export default {
 
 .q-stepper__tab--active {
   color: #eba013;
+  position: relative; /* Ensure the position is set to relative */
 }
 
-.q-stepper__tab--active::after {
-  content: attr(prefix);
-  display: block;
+.q-stepper__tab--active .q-stepper__dot {
+  background-color: #eba013;
   color: white;
-  font-size: 40px;
-  z-index: 10;
-  position: absolute;
-  top: 7px;
-  font-family: 'Inter', sans-serif;
+  transform: scale(1.4);
+  position: relative; /* Ensure the position is set to relative */
+}
+
+/* Ensure the prefix is displayed for active steps */
+.q-stepper__tab--active .q-stepper__dot::after {
+  content: attr(prefix);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px; /* Adjust font size as needed */
   font-weight: 600;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.q-stepper__tab:nth-child(1)::after {
-  left: 40px;
-}
-
-.q-stepper__tab:nth-child(2)::after {
-  left: 54px;
-}
-
-.q-stepper__tab:nth-child(3)::after {
-  left: 71px;
-}
-
-.q-icon {
-  display: none;
+/* Ensure the prefix is displayed for inactive steps */
+.q-stepper__tab .q-stepper__dot::after {
+  content: attr(prefix);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black; /* Adjust color as needed */
+  font-size: 24px; /* Adjust font size as needed */
+  font-weight: 600;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .q-stepper__dot {
@@ -138,10 +170,14 @@ export default {
   font-weight: 600;
 }
 
-.q-stepper__tab--active .q-stepper__dot {
-  background-color: #eba013;
-  color: white;
-  transform: scale(1.4);
+/* .q-stepper__dot span i::after {
+  content: attr(prefix);
+  position: absolute;
+  top: -10px
+} */
+
+.material-icons {
+  display: none; 
 }
 
 .free-reg-container {
